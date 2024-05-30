@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const colors = require("colors");
 const app = express();
@@ -20,20 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRoutes);
-
-app.get("/api/chat", (req, res) => {
-  let chats = [
-    { chatName: "abcd", _id: 1 },
-    { chatName: "efgh", _id: 1 },
-    { chatName: "ijkl", _id: 1 },
-    { chatName: "mnop", _id: 1 },
-  ];
-  res.status(200).send(chats);
-});
-
-app.get("/api/chat/:id", (req, res) => {
-  res.status(200).send(req.params.id);
-});
+app.use("/api/chat", chatRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
