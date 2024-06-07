@@ -7,11 +7,14 @@ import ChatLoading from "./ChatLoading";
 import { getSender } from "../../config/ChatLogics";
 import GroupChatModel from "./GroupChatModel";
 
-const MyChats = ({fetchAgain}) => {
+const MyChats = ({ fetchAgain }) => {
   const toast = useToast();
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const [chatLoading, setChatLoading] = useState(true);
+  console.log("chats:", chats);
   const fetchChats = async () => {
+    setChatLoading(true);
     try {
       const config = {
         headers: {
@@ -22,6 +25,7 @@ const MyChats = ({fetchAgain}) => {
 
       const { data } = await axios.get("/api/chat", config);
       setChats(data);
+      setChatLoading(false);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -31,6 +35,7 @@ const MyChats = ({fetchAgain}) => {
         isClosable: true,
         position: "bottom-left",
       });
+      setChatLoading(false);
     }
   };
 
@@ -60,12 +65,13 @@ const MyChats = ({fetchAgain}) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        My Chats
+       <Text fontSize="1rem">Chats</Text>
         <GroupChatModel>
           <Button
             display="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            fontSize={{ base: "0.7rem", md: "0.8rem", lg: "0.8rem" }}
             rightIcon={<AddIcon />}
+            size="sm"
           >
             New Group Chat
           </Button>
@@ -75,19 +81,19 @@ const MyChats = ({fetchAgain}) => {
         display="flex"
         flexDir="column"
         p={3}
-        bg="#F8F8F8"
+        bg="#e4ebea"
         w="100%"
         h="100%"
         borderRadius="lg"
         overflowY="hidden"
       >
-        {chats ? (
+        {chats && !chatLoading ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
               <Box
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                bg={selectedChat === chat ? "#38B2AC" : "#F8F8F8"}
                 color={selectedChat === chat ? "white" : "black"}
                 px={3}
                 py={2}

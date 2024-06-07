@@ -129,23 +129,22 @@ const SideDrawer = () => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg={"white"}
+        bg={"#e4ebea"}
         w="100%"
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
-        <Tooltip label="Search user to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
-            <i class="fa fa-search" aria-hidden="true"></i>
-            <Text display={{ base: "none", md: "flex" }} px={"4"}>
-              Search User
-            </Text>
-          </Button>
-        </Tooltip>
+        <Box border="1px solid black" borderRadius="20px">
+          <Tooltip label="Search user to chat" hasArrow placement="bottom-end" >
+            <Button variant="ghost" onClick={onOpen}borderRadius="20px">
+              <i class="fa fa-search" aria-hidden="true"></i>
+              <Text display={{ base: "none", md: "flex" }} px={"4"}>
+                Search User
+              </Text>
+            </Button>
+          </Tooltip>
+        </Box>
 
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Let's Chat
-        </Text>
         <div>
           <Menu>
             <MenuButton p={1}>

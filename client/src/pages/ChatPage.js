@@ -1,33 +1,53 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ChatState } from "../context/chatProvider";
-import { Box } from "@chakra-ui/react";
-import SideDrawer from "../components/Containers/SideDrawer";
-import MyChats from "../components/Containers/MyChats";
-import ChatBox from "../components/Containers/ChatBox";
+import { Box, Spinner, Text } from "@chakra-ui/react";
+const SideDrawer = lazy(() => import("../components/Containers/SideDrawer"));
+const MyChats = lazy(() => import("../components/Containers/MyChats"));
+const ChatBox = lazy(() => import("../components/Containers/ChatBox"));
 const ChatPage = () => {
   const { user } = ChatState();
   const [fetchAgain, setFetchAgain] = useState(false);
 
   return (
     <div style={{ width: "100%" }}>
-      {user && <SideDrawer />}
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        w="100%"
-        h="91.5vh"
-        p="10px"
+      <Suspense
+        fallback={
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            h="100vh"
+            w="100%"
+          >
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+            <Text>Loading...</Text>
+          </Box>
+        }
       >
-        {user && (
-          <MyChats fetchAgain={fetchAgain} />
-        )}
-        {user && (
-          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
-        )}
-      </Box>
+        {user && <SideDrawer />}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          w="100%"
+          h="91.5vh"
+          p="10px"
+        >
+          {user && <MyChats fetchAgain={fetchAgain} />}
+          {user && (
+            <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+          )}
+        </Box>
+      </Suspense>
     </div>
   );
 };

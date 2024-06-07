@@ -112,7 +112,6 @@ const Signup = () => {
       console.log("data:", data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      navigate("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -135,6 +134,7 @@ const Signup = () => {
           onChange={(e) => {
             setName(e.target.value);
           }}
+          value={name}
         />
       </FormControl>
       <FormControl id="email" isRequired>
@@ -145,6 +145,7 @@ const Signup = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
+          value={email}
         />
       </FormControl>
       <FormControl id="password" isRequired>
@@ -156,6 +157,7 @@ const Signup = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            value={password}
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={() => setShow(!show)}>
@@ -172,10 +174,11 @@ const Signup = () => {
           onChange={(e) => {
             setConfirmPassword(e.target.value);
           }}
+          value={confirmPassword}
         />
       </FormControl>
-      <FormControl id="pic" isRequired>
-        <FormLabel>Name</FormLabel>
+      <FormControl id="pic">
+        <FormLabel>Choose a pic</FormLabel>
         <Input
           type="file"
           p={1.5}
